@@ -1,0 +1,607 @@
+---
+import { getCollection } from "astro:content";
+import "../styles/global.css";
+
+const topics = await getCollection("topics");
+
+const entries = topics.map((topic) => ({
+  slug: topic.id.split("/").pop(),
+  title: topic.data.title,
+  description: topic.data.description,
+  section: topic.data.section,
+  tags: topic.data.tags,
+}));
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Random — Wonder Cabinet</title>
+
+    <meta
+      name="description"
+      content="Let Wonder Cabinet choose your next strange and unnecessary obsession."
+    />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <div class="brand">
+          <a class="logo" href="/">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 5c-2-1.5-5-2-8-1v14c3-1 6-.5 8 1c2-1.5 5-2-8-1V4c-3-1-6-.5-8 1z" />
+              <line x1="12" y1="5" x2="12" y2="19" />
+            </svg>
+
+            Wonder Cabinet
+          </a>
+        </div>
+
+        <nav class="sections">
+          <a href="/">Home</a>
+          <a href="/discover">Discover</a>
+          <a href="/rabbit-holes">Rabbit Holes</a>
+          <a href="/random" class="active">Random</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+
+    <main class="wrap random-page">
+
+      <section class="random-hero">
+
+        <p class="kicker">no context required</p>
+
+        <h1>
+          Give me something<br />
+          weird.
+        </h1>
+
+        <p>
+          Don't know what you want to read?
+          Excellent. Neither do we.
+        </p>
+
+        <button id="random-button" type="button">
+          ✦ Pick for me
+        </button>
+
+      </section>
+
+
+      <section
+        id="result"
+        class="random-result"
+        aria-live="polite"
+      >
+
+        <div class="result-placeholder">
+
+          <span class="placeholder-star">✦</span>
+
+          <p>
+            Your next unnecessary obsession<br />
+            is waiting.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <section class="random-note">
+
+        <span>☞</span>
+
+        <p>
+          There are no bad choices here.
+          Except maybe closing this tab.
+        </p>
+
+      </section>
+
+    </main>
+
+
+    <footer>
+      <div class="wrap">
+
+        <p>
+          Wonder Cabinet — a running cabinet of curiosities.
+        </p>
+
+        <p>
+          <a href="/about">About</a>
+          <a href="/contact">Suggest a topic</a>
+        </p>
+
+      </div>
+    </footer>
+
+
+    <script define:vars={{ entries }}>
+
+      const button =
+        document.querySelector("#random-button");
+
+      const result =
+        document.querySelector("#result");
+
+      const entriesList = entries;
+
+
+      function pickRandom() {
+
+        if (!entriesList.length) {
+          result.innerHTML = `
+            <div class="result-placeholder">
+              <span class="placeholder-star">✦</span>
+              <p>
+                The cabinet is empty.
+              </p>
+            </div>
+          `;
+
+          return;
+        }
+
+
+        const randomIndex =
+          Math.floor(
+            Math.random() * entriesList.length
+          );
+
+        const entry =
+          entriesList[randomIndex];
+
+
+        result.innerHTML = `
+
+          <article class="random-card">
+
+            <div class="random-card-top">
+
+              <span class="section-label">
+                ${entry.section}
+              </span>
+
+              <span class="random-number">
+                #${String(randomIndex + 1).padStart(2, "0")}
+              </span>
+
+            </div>
+
+
+            <p class="picked-label">
+              your random curiosity
+            </p>
+
+
+            <h2>
+              ${entry.title}
+            </h2>
+
+
+            <p class="random-description">
+              ${entry.description}
+            </p>
+
+
+            <div class="random-tags">
+
+              ${entry.tags
+                .map((tag) => `<span>#${tag}</span>`)
+                .join("")}
+
+            </div>
+
+
+            <a
+              class="read-button"
+              href="/topics/${entry.slug}"
+            >
+              Open the entry →
+            </a>
+
+          </article>
+
+        `;
+
+
+        result.classList.remove("result-pop");
+
+        void result.offsetWidth;
+
+        result.classList.add("result-pop");
+      }
+
+
+      button?.addEventListener(
+        "click",
+        pickRandom
+      );
+
+    </script>
+
+  </body>
+</html>
+
+
+<style>
+
+  .random-page {
+    padding-top: 70px;
+    padding-bottom: 100px;
+  }
+
+
+  /* HERO */
+
+  .random-hero {
+    max-width: 720px;
+
+    margin: 0 auto 65px;
+
+    text-align: center;
+  }
+
+  .random-hero .kicker {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    padding: 5px 12px;
+
+    background: var(--card);
+
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+
+    color: var(--ink);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    box-shadow: 4px 4px 0 var(--ocean);
+  }
+
+  .random-hero h1 {
+    margin-bottom: 18px;
+
+    font-size: clamp(48px, 7vw, 78px);
+
+    line-height: .98;
+  }
+
+  .random-hero > p:not(.kicker) {
+    margin-bottom: 28px;
+
+    color: var(--ink-dim-purple);
+
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+
+  /* BUTTON */
+
+  #random-button {
+    padding: 13px 21px;
+
+    background: var(--card);
+
+    border: 2.5px solid var(--ink);
+    border-radius: 8px;
+
+    color: var(--ink);
+
+    font-family: "Nunito", sans-serif;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    box-shadow: 5px 5px 0 var(--philosophy);
+
+    transition:
+      transform .15s ease,
+      box-shadow .15s ease;
+  }
+
+  #random-button:hover {
+    transform: translate(-2px, -2px);
+
+    box-shadow: 7px 7px 0 var(--philosophy);
+  }
+
+  #random-button:active {
+    transform: translate(2px, 2px);
+
+    box-shadow: 2px 2px 0 var(--philosophy);
+  }
+
+
+  /* RESULT */
+
+  .random-result {
+    max-width: 760px;
+
+    min-height: 360px;
+
+    margin: 0 auto;
+  }
+
+  .result-placeholder {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 360px;
+
+    padding: 45px;
+
+    border: 2px dashed rgba(243, 233, 255, .35);
+    border-radius: 10px;
+
+    color: var(--ink-dim-purple);
+
+    text-align: center;
+  }
+
+  .placeholder-star {
+    display: block;
+
+    margin-bottom: 12px;
+
+    color: var(--ink-on-purple);
+
+    font-size: 32px;
+
+    animation: floatStar 3s ease-in-out infinite;
+  }
+
+  .result-placeholder p {
+    margin: 0;
+
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  @keyframes floatStar {
+
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-7px) rotate(8deg);
+    }
+
+  }
+
+
+  /* RANDOM CARD */
+
+  .random-card {
+    position: relative;
+
+    padding: 38px;
+
+    background: var(--card);
+
+    border: 2.5px solid var(--ink);
+    border-radius: 10px;
+
+    color: var(--ink);
+
+    box-shadow: 9px 9px 0 var(--space);
+
+    transform: rotate(-.4deg);
+  }
+
+  .random-card-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 45px;
+  }
+
+  .section-label {
+    display: inline-block;
+
+    padding: 4px 9px;
+
+    background: var(--ink);
+
+    border-radius: 5px;
+
+    color: var(--card);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: .05em;
+
+    text-transform: uppercase;
+  }
+
+  .random-number {
+    color: var(--ink-dim-card);
+
+    font-family: "Fraunces", serif;
+
+    font-size: 20px;
+  }
+
+  .picked-label {
+    margin: 0 0 8px;
+
+    color: var(--space);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+  }
+
+  .random-card h2 {
+    max-width: 650px;
+
+    margin-bottom: 15px;
+
+    font-size: clamp(32px, 5vw, 48px);
+
+    line-height: 1.05;
+  }
+
+  .random-description {
+    max-width: 60ch;
+
+    margin-bottom: 22px;
+
+    color: var(--ink-dim-card);
+
+    font-size: 16px;
+  }
+
+  .random-tags {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+
+    margin-bottom: 28px;
+  }
+
+  .random-tags span {
+    color: var(--ink-dim-card);
+
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .read-button {
+    display: inline-block;
+
+    padding: 10px 15px;
+
+    background: var(--ink);
+
+    border: 2px solid var(--ink);
+
+    border-radius: 6px;
+
+    color: var(--card);
+
+    font-size: 13px;
+    font-weight: 800;
+
+    text-decoration: none;
+  }
+
+  .read-button:hover {
+    background: var(--bg-deep);
+
+    text-decoration: none;
+  }
+
+
+  /* ANIMATION */
+
+  .result-pop {
+    animation: resultPop .35s ease;
+  }
+
+  @keyframes resultPop {
+
+    0% {
+      opacity: 0;
+      transform: translateY(10px) rotate(-.4deg);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0) rotate(-.4deg);
+    }
+
+  }
+
+
+  /* NOTE */
+
+  .random-note {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 55px;
+
+    color: var(--ink-dim-purple);
+
+    text-align: center;
+  }
+
+  .random-note span {
+    font-size: 22px;
+  }
+
+  .random-note p {
+    margin: 0;
+
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 600px) {
+
+    .random-page {
+      padding-top: 45px;
+    }
+
+    .random-card {
+      padding: 28px 22px;
+    }
+
+    .random-card-top {
+      margin-bottom: 32px;
+    }
+
+    .result-placeholder {
+      min-height: 280px;
+
+      padding: 30px 20px;
+    }
+
+  }
+
+</style>

@@ -1,0 +1,925 @@
+---
+import { getCollection } from "astro:content";
+import "../styles/global.css";
+
+const topics = await getCollection("topics");
+
+const topicMap = new Map(
+  topics.map((topic) => [
+    topic.id.split("/").pop(),
+    topic,
+  ])
+);
+
+const rabbitHoles = [
+  {
+    number: "01",
+    title: "The Existence Crisis",
+    description:
+      "Start wondering what consciousness is. End up questioning whether you, the universe, or anything else is actually real.",
+    accent: "var(--philosophy)",
+    topics: [
+      "brain-in-a-vat",
+      "boltzmann-brain",
+      "ship-of-theseus",
+    ],
+  },
+  {
+    number: "02",
+    title: "Are We Alone?",
+    description:
+      "The universe is absurdly huge. There should be someone out there. So why is it so quiet?",
+    accent: "var(--space)",
+    topics: [
+      "fermi-paradox",
+      "black-holes",
+    ],
+  },
+  {
+    number: "03",
+    title: "Deep & Unsettling",
+    description:
+      "Descend into the ocean and discover a world that is darker, stranger, and less explored than most of us realize.",
+    accent: "var(--ocean)",
+    topics: [
+      "mariana-trench",
+      "bioluminescence",
+    ],
+  },
+  {
+    number: "04",
+    title: "Lost Knowledge",
+    description:
+      "Civilizations disappear. Libraries burn. Stories get forgotten. History has a lot of missing pages.",
+    accent: "var(--history)",
+    topics: [
+      "library-of-alexandria",
+      "ancient-rome",
+      "dyatlov-pass",
+    ],
+  },
+  {
+    number: "05",
+    title: "When Movies Get Weird",
+    description:
+      "Plot twists, hidden details, unsettling theories, and the strange decisions hiding behind the screen.",
+    accent: "var(--movies)",
+    topics: [
+      "movie-plot-twists",
+      "kubrick-moon-landing",
+      "why-horror-works",
+    ],
+  },
+  {
+    number: "06",
+    title: "Books That Break Your Brain",
+    description:
+      "Stories that refuse to stay inside the pages and leave you thinking about them at 2 a.m.",
+    accent: "var(--books)",
+    topics: [
+      "1984",
+      "house-of-leaves",
+      "the-left-hand-of-darkness",
+    ],
+  },
+];
+
+const availableHoles = rabbitHoles
+  .map((hole) => ({
+    ...hole,
+    entries: hole.topics
+      .map((slug) => topicMap.get(slug))
+      .filter(
+        (
+          topic
+        ): topic is (typeof topics)[number] =>
+          topic !== undefined
+      ),
+  }))
+  .filter((hole) => hole.entries.length > 0);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <title>Rabbit Holes — The Catalog</title>
+
+    <meta
+      name="description"
+      content="Curated rabbit holes through strange ideas, fascinating stories, impossible questions, and wonderfully unnecessary knowledge."
+    />
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <div class="brand">
+          <a class="logo" href="/">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 5c-2-1.5-5-2-8-1v14c3-1 6-.5 8 1c2-1.5 5-2-8-1V4c-3-1-6-.5-8 1z" />
+              <line x1="12" y1="5" x2="12" y2="19" />
+            </svg>
+
+            The Catalog
+          </a>
+        </div>
+
+        <nav class="sections">
+          <a href="/">Home</a>
+          <a href="/discover">Discover</a>
+          <a href="/rabbit-holes" class="active">Rabbit Holes</a>
+          <a href="/random">Random</a>
+          <a href="/about">About</a>
+          <a href="/contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="wrap rabbit-page">
+
+      <section class="rabbit-hero">
+        <div>
+          <p class="kicker">you have been warned</p>
+
+          <h1>
+            Pick a rabbit hole.
+          </h1>
+
+          <p class="hero-copy">
+            These aren't reading lists. They're trails.
+            Start somewhere interesting and see how far
+            the catalog takes you.
+          </p>
+        </div>
+
+        <div class="rabbit-doodle" aria-hidden="true">
+          <span class="doodle-ring ring-one"></span>
+          <span class="doodle-ring ring-two"></span>
+          <span class="doodle-dot dot-one"></span>
+          <span class="doodle-dot dot-two"></span>
+          <span class="doodle-star">✦</span>
+        </div>
+      </section>
+
+
+      <section class="holes">
+
+        {
+          availableHoles.map((hole, index) => (
+            <article
+              class="hole"
+              style={`--hole-accent:${hole.accent}`}
+            >
+
+              <div class="hole-intro">
+
+                <div class="hole-number">
+                  {hole.number}
+                </div>
+
+                <div>
+                  <p class="hole-label">
+                    rabbit hole
+                  </p>
+
+                  <h2>{hole.title}</h2>
+
+                  <p class="hole-description">
+                    {hole.description}
+                  </p>
+                </div>
+
+              </div>
+
+
+              <div class="trail">
+
+                {
+                  hole.entries.map((topic, topicIndex) => {
+                    const slug = topic.id.split("/").pop();
+
+                    return (
+                      <div class="trail-item">
+
+                        <div class="trail-marker">
+                          <span>
+                            {topicIndex + 1}
+                          </span>
+                        </div>
+
+                        <div class="trail-line"></div>
+
+                        <a
+                          class="trail-card"
+                          href={`/topics/${slug}`}
+                        >
+
+                          <div class="trail-card-top">
+                            <span class="section-label">
+                              {topic.data.section}
+                            </span>
+
+                            <span class="arrow">
+                              →
+                            </span>
+                          </div>
+
+                          <h3>
+                            {topic.data.title}
+                          </h3>
+
+                          <p>
+                            {topic.data.description}
+                          </p>
+
+                          <div class="trail-tags">
+                            {topic.data.tags
+                              .slice(0, 3)
+                              .map((tag) => (
+                                <span>#{tag}</span>
+                              ))}
+                          </div>
+
+                        </a>
+
+                      </div>
+                    );
+                  })
+                }
+
+                <div class="trail-end">
+                  <span>✦</span>
+                  <p>
+                    and this is where we stop...
+                    for now.
+                  </p>
+                </div>
+
+              </div>
+
+            </article>
+          ))
+        }
+
+      </section>
+
+
+      <section class="rabbit-footer">
+
+        <div>
+          <p class="eyebrow">
+            can't decide?
+          </p>
+
+          <h2>
+            That's what the random button is for.
+          </h2>
+
+          <p>
+            Let the catalog choose your next unnecessary
+            obsession.
+          </p>
+        </div>
+
+        <a href="/random">
+          Surprise me →
+        </a>
+
+      </section>
+
+    </main>
+
+
+    <footer>
+      <div class="wrap">
+
+        <p>
+          The Catalog — notes & miscellany
+        </p>
+
+        <p>
+          <a href="/about">About</a>
+          <a href="/contact">Suggest a topic</a>
+        </p>
+
+      </div>
+    </footer>
+
+  </body>
+</html>
+
+
+<style>
+
+  .rabbit-page {
+    padding-top: 65px;
+    padding-bottom: 100px;
+  }
+
+
+  /* HERO */
+
+  .rabbit-hero {
+    position: relative;
+
+    display: grid;
+    grid-template-columns: 1fr 260px;
+
+    gap: 50px;
+
+    align-items: center;
+
+    min-height: 330px;
+
+    margin-bottom: 75px;
+  }
+
+  .rabbit-hero .kicker {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    padding: 5px 12px;
+
+    background: var(--card);
+
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+
+    color: var(--ink);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    box-shadow: 4px 4px 0 var(--philosophy);
+  }
+
+  .rabbit-hero h1 {
+    max-width: 700px;
+
+    margin-bottom: 18px;
+
+    font-size: clamp(46px, 6vw, 72px);
+    line-height: 1;
+  }
+
+  .hero-copy {
+    max-width: 52ch;
+
+    margin: 0;
+
+    color: var(--ink-dim-purple);
+
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+
+  /* DOODLE */
+
+  .rabbit-doodle {
+    position: relative;
+
+    width: 220px;
+    height: 220px;
+
+    margin: auto;
+  }
+
+  .doodle-ring {
+    position: absolute;
+
+    inset: 30px;
+
+    border: 3px solid var(--ink-on-purple);
+
+    border-radius: 50%;
+
+    opacity: .45;
+
+    animation: orbit 12s linear infinite;
+  }
+
+  .ring-two {
+    inset: 55px;
+
+    border-style: dashed;
+
+    animation-direction: reverse;
+
+    animation-duration: 9s;
+  }
+
+  .doodle-dot {
+    position: absolute;
+
+    width: 13px;
+    height: 13px;
+
+    background: var(--card);
+
+    border: 2px solid var(--ink);
+
+    border-radius: 50%;
+
+    animation: floatDot 4s ease-in-out infinite;
+  }
+
+  .dot-one {
+    top: 18px;
+    right: 45px;
+  }
+
+  .dot-two {
+    bottom: 35px;
+    left: 32px;
+
+    animation-delay: 1.5s;
+  }
+
+  .doodle-star {
+    position: absolute;
+
+    top: 88px;
+    left: 91px;
+
+    color: var(--ink-on-purple);
+
+    font-size: 40px;
+
+    animation: starFloat 3s ease-in-out infinite;
+  }
+
+  @keyframes orbit {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes floatDot {
+    0%, 100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-9px);
+    }
+  }
+
+  @keyframes starFloat {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+      transform: translateY(-8px) rotate(8deg);
+    }
+  }
+
+
+  /* HOLES */
+
+  .holes {
+    display: flex;
+    flex-direction: column;
+
+    gap: 75px;
+  }
+
+  .hole {
+    padding: 35px;
+
+    background: var(--card);
+
+    border: 2.5px solid var(--ink);
+    border-radius: 10px;
+
+    color: var(--ink);
+
+    box-shadow: 9px 9px 0 var(--hole-accent);
+  }
+
+  .hole:nth-child(even) {
+    transform: rotate(.35deg);
+  }
+
+  .hole:nth-child(odd) {
+    transform: rotate(-.35deg);
+  }
+
+
+  .hole-intro {
+    display: grid;
+
+    grid-template-columns: 70px 1fr;
+
+    gap: 20px;
+
+    align-items: start;
+
+    margin-bottom: 35px;
+  }
+
+  .hole-number {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 62px;
+    height: 62px;
+
+    background: var(--hole-accent);
+
+    border: 2.5px solid var(--ink);
+    border-radius: 50%;
+
+    color: var(--card);
+
+    font-family: "Fraunces", serif;
+
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .hole-label {
+    margin: 0 0 4px;
+
+    color: var(--ink-dim-card);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .hole-intro h2 {
+    margin-bottom: 7px;
+
+    font-size: 32px;
+    line-height: 1.1;
+  }
+
+  .hole-description {
+    max-width: 65ch;
+
+    margin: 0;
+
+    color: var(--ink-dim-card);
+
+    font-size: 15px;
+  }
+
+
+  /* TRAIL */
+
+  .trail {
+    padding-left: 8px;
+  }
+
+  .trail-item {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns: 34px 1fr;
+
+    gap: 18px;
+
+    min-height: 155px;
+  }
+
+  .trail-marker {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    justify-content: center;
+  }
+
+  .trail-marker span {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    background: var(--card);
+
+    border: 2px solid var(--hole-accent);
+    border-radius: 50%;
+
+    color: var(--ink);
+
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .trail-line {
+    position: absolute;
+
+    top: 32px;
+    bottom: 0;
+    left: 15px;
+
+    width: 2px;
+
+    background: var(--hole-accent);
+
+    opacity: .45;
+  }
+
+  .trail-item:last-of-type .trail-line {
+    display: none;
+  }
+
+
+  /* TRAIL CARD */
+
+  .trail-card {
+    display: block;
+
+    padding: 20px;
+
+    background: var(--card-alt);
+
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+
+    color: var(--ink);
+
+    text-decoration: none;
+
+    transition:
+      transform .15s ease,
+      box-shadow .15s ease;
+  }
+
+  .trail-card:hover {
+    transform: translate(-3px, -3px);
+
+    box-shadow: 5px 5px 0 var(--hole-accent);
+
+    text-decoration: none;
+  }
+
+  .trail-card-top {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+  }
+
+  .trail-card .section-label {
+    padding: 3px 8px;
+
+    background: var(--ink);
+
+    border-radius: 4px;
+
+    color: var(--card);
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: .05em;
+    text-transform: uppercase;
+  }
+
+  .arrow {
+    color: var(--ink-dim-card);
+
+    font-size: 18px;
+    font-weight: 800;
+  }
+
+  .trail-card h3 {
+    margin-bottom: 6px;
+
+    font-size: 23px;
+    line-height: 1.15;
+  }
+
+  .trail-card p {
+    max-width: 65ch;
+
+    margin: 0;
+
+    color: var(--ink-dim-card);
+
+    font-size: 14px;
+  }
+
+  .trail-tags {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 7px;
+
+    margin-top: 14px;
+  }
+
+  .trail-tags span {
+    color: var(--ink-dim-card);
+
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+
+  /* END */
+
+  .trail-end {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin: 10px 0 0 52px;
+
+    color: var(--ink-dim-card);
+  }
+
+  .trail-end span {
+    color: var(--hole-accent);
+
+    font-size: 18px;
+  }
+
+  .trail-end p {
+    margin: 0;
+
+    font-size: 12px;
+    font-style: italic;
+    font-weight: 700;
+  }
+
+
+  /* BOTTOM CTA */
+
+  .rabbit-footer {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-top: 90px;
+    padding: 40px 45px;
+
+    background: var(--bg-deep);
+
+    border: 2.5px solid var(--ink);
+    border-radius: 10px;
+
+    box-shadow: 8px 8px 0 var(--ocean);
+  }
+
+  .rabbit-footer .eyebrow {
+    margin: 0 0 5px;
+
+    color: var(--ink-dim-purple);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .rabbit-footer h2 {
+    margin-bottom: 5px;
+
+    color: var(--ink-on-purple);
+
+    font-size: 29px;
+  }
+
+  .rabbit-footer p:last-child {
+    margin: 0;
+
+    color: var(--ink-dim-purple);
+
+    font-size: 14px;
+  }
+
+  .rabbit-footer > a {
+    flex-shrink: 0;
+
+    padding: 11px 17px;
+
+    background: var(--card);
+
+    border: 2px solid var(--ink);
+    border-radius: 7px;
+
+    color: var(--ink);
+
+    font-size: 13px;
+    font-weight: 800;
+
+    text-decoration: none;
+
+    box-shadow: 4px 4px 0 var(--ocean);
+  }
+
+  .rabbit-footer > a:hover {
+    transform: translate(-2px, -2px);
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 760px) {
+
+    .rabbit-hero {
+      grid-template-columns: 1fr;
+
+      min-height: auto;
+
+      margin-bottom: 55px;
+    }
+
+    .rabbit-doodle {
+      display: none;
+    }
+
+    .hole {
+      padding: 25px 20px;
+    }
+
+    .hole-intro {
+      grid-template-columns: 52px 1fr;
+
+      gap: 14px;
+    }
+
+    .hole-number {
+      width: 48px;
+      height: 48px;
+
+      font-size: 16px;
+    }
+
+    .hole-intro h2 {
+      font-size: 27px;
+    }
+
+    .trail {
+      padding-left: 0;
+    }
+
+    .trail-item {
+      grid-template-columns: 28px 1fr;
+
+      gap: 12px;
+    }
+
+    .trail-marker span {
+      width: 28px;
+      height: 28px;
+    }
+
+    .trail-line {
+      left: 13px;
+    }
+
+    .trail-end {
+      margin-left: 40px;
+    }
+
+    .rabbit-footer {
+      align-items: flex-start;
+
+      flex-direction: column;
+
+      padding: 30px 25px;
+    }
+
+  }
+
+</style>

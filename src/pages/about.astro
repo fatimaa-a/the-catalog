@@ -1,0 +1,562 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <title>About — The Catalog</title>
+
+    <meta
+      name="description"
+      content="The Catalog is a corner of the internet for curious people, strange questions, fascinating stories, and unnecessary knowledge."
+    />
+  </head>
+
+  <body>
+
+    <header class="site-header">
+      <div class="wrap">
+
+        <div class="brand">
+
+          <a class="logo" href="/">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M12 5c-2-1.5-5-2-8-1v14c3-1 6-.5 8 1c2-1.5 5-2-8-1V4c-3-1-6-.5-8 1z" />
+              <line x1="12" y1="5" x2="12" y2="19" />
+            </svg>
+
+            The Catalog
+          </a>
+
+        </div>
+
+
+        <nav class="sections">
+
+          <a href="/">Home</a>
+
+          <a href="/discover">
+            Discover
+          </a>
+
+          <a href="/rabbit-holes">
+            Rabbit Holes
+          </a>
+
+          <a href="/random">
+            Random
+          </a>
+
+          <a href="/about" class="active">
+            About
+          </a>
+
+          <a href="/contact">
+            Contact
+          </a>
+
+        </nav>
+
+      </div>
+    </header>
+
+
+    <main class="wrap about-page">
+
+      <section class="about-hero">
+
+        <p class="kicker">
+          welcome to the catalog
+        </p>
+
+        <h1>
+          The internet is full<br />
+          of weird things.
+        </h1>
+
+        <p class="hero-copy">
+          We figured someone should put them in one place.
+        </p>
+
+      </section>
+
+
+      <section class="about-paper">
+
+        <div class="paper-stamp">
+          THE<br />
+          CATALOG
+        </div>
+
+
+        <div class="paper-content">
+
+          <p class="paper-label">
+            a small note
+          </p>
+
+          <h2>
+            So, what is this place?
+          </h2>
+
+          <p>
+            The Catalog is a collection of things that
+            make you stop scrolling.
+          </p>
+
+          <p>
+            Strange questions. Forgotten stories. Impossible
+            ideas. Weird corners of history. Things lurking
+            at the bottom of the ocean. Things happening
+            billions of light-years away.
+          </p>
+
+          <p>
+            Basically, the kind of stuff you look up at
+            midnight and suddenly realize you've been
+            reading about for three hours.
+          </p>
+
+          <p>
+            That's what belongs here.
+          </p>
+
+        </div>
+
+      </section>
+
+
+      <section class="about-grid">
+
+        <article>
+
+          <span class="mini-icon">✦</span>
+
+          <h2>
+            Curiosity first.
+          </h2>
+
+          <p>
+            You don't need a reason to learn something.
+            Sometimes “that's really weird” is reason enough.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span class="mini-icon">↝</span>
+
+          <h2>
+            Follow the trail.
+          </h2>
+
+          <p>
+            One interesting question usually leads to another.
+            Rabbit holes are encouraged here.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span class="mini-icon">?</span>
+
+          <h2>
+            No homework.
+          </h2>
+
+          <p>
+            There are no courses, grades, or productivity
+            dashboards. Just things worth knowing.
+          </p>
+
+        </article>
+
+      </section>
+
+
+      <section class="about-bottom">
+
+        <div>
+
+          <p class="eyebrow">
+            got curious?
+          </p>
+
+          <h2>
+            Good. That's the whole point.
+          </h2>
+
+        </div>
+
+        <a href="/discover">
+          Open the catalog →
+        </a>
+
+      </section>
+
+    </main>
+
+
+    <footer>
+
+      <div class="wrap">
+
+        <p>
+          The Catalog — a running catalog of curiosities.
+        </p>
+
+        <p>
+          <a href="/about">About</a>
+          <a href="/contact">Suggest a topic</a>
+        </p>
+
+      </div>
+
+    </footer>
+
+  </body>
+</html>
+
+
+<style>
+
+  .about-page {
+    padding-top: 70px;
+    padding-bottom: 100px;
+  }
+
+
+  /* HERO */
+
+  .about-hero {
+    max-width: 780px;
+
+    margin-bottom: 70px;
+  }
+
+  .about-hero .kicker {
+    display: inline-block;
+
+    margin-bottom: 18px;
+
+    padding: 5px 12px;
+
+    background: var(--card);
+
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+
+    color: var(--ink);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    box-shadow: 4px 4px 0 var(--history);
+  }
+
+  .about-hero h1 {
+    margin-bottom: 18px;
+
+    font-size: clamp(45px, 6vw, 70px);
+
+    line-height: 1;
+  }
+
+  .hero-copy {
+    margin: 0;
+
+    color: var(--ink-dim-purple);
+
+    font-size: 19px;
+    font-weight: 600;
+  }
+
+
+  /* PAPER */
+
+  .about-paper {
+    position: relative;
+
+    display: grid;
+
+    grid-template-columns: 170px 1fr;
+
+    gap: 45px;
+
+    max-width: 900px;
+
+    margin: 0 auto 75px;
+
+    padding: 45px 50px;
+
+    background: var(--card);
+
+    border: 2.5px solid var(--ink);
+    border-radius: 3px;
+
+    color: var(--ink);
+
+    box-shadow: 9px 9px 0 var(--history);
+
+    transform: rotate(-.45deg);
+  }
+
+  .paper-stamp {
+    align-self: start;
+
+    width: 125px;
+    height: 125px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 3px solid var(--history);
+    border-radius: 50%;
+
+    color: var(--history);
+
+    font-family: "Fraunces", serif;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    line-height: 1.1;
+
+    text-align: center;
+
+    transform: rotate(-12deg);
+  }
+
+  .paper-label {
+    margin: 0 0 7px;
+
+    color: var(--ink-dim-card);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+  }
+
+  .paper-content h2 {
+    margin-bottom: 20px;
+
+    font-size: 34px;
+
+    line-height: 1.1;
+  }
+
+  .paper-content p:not(.paper-label) {
+    max-width: 62ch;
+
+    color: var(--ink-dim-card);
+
+    font-size: 16px;
+  }
+
+  .paper-content p:last-child {
+    margin-bottom: 0;
+
+    color: var(--ink);
+
+    font-family: "Fraunces", serif;
+
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+
+  /* THREE IDEAS */
+
+  .about-grid {
+    display: grid;
+
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+
+    margin-bottom: 75px;
+  }
+
+  .about-grid article {
+    min-height: 250px;
+
+    padding: 28px;
+
+    background: var(--card);
+
+    border: 2.5px solid var(--ink);
+    border-radius: 10px;
+
+    color: var(--ink);
+  }
+
+  .about-grid article:nth-child(1) {
+    box-shadow: 6px 6px 0 var(--philosophy);
+    transform: rotate(-.6deg);
+  }
+
+  .about-grid article:nth-child(2) {
+    box-shadow: 6px 6px 0 var(--ocean);
+    transform: rotate(.5deg);
+  }
+
+  .about-grid article:nth-child(3) {
+    box-shadow: 6px 6px 0 var(--movies);
+    transform: rotate(-.4deg);
+  }
+
+  .mini-icon {
+    display: block;
+
+    margin-bottom: 25px;
+
+    color: var(--ink);
+
+    font-family: "Fraunces", serif;
+
+    font-size: 30px;
+  }
+
+  .about-grid h2 {
+    margin-bottom: 10px;
+
+    font-size: 25px;
+  }
+
+  .about-grid p {
+    margin: 0;
+
+    color: var(--ink-dim-card);
+
+    font-size: 14px;
+  }
+
+
+  /* BOTTOM */
+
+  .about-bottom {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    padding: 38px 45px;
+
+    background: var(--bg-deep);
+
+    border: 2.5px solid var(--ink);
+    border-radius: 10px;
+
+    box-shadow: 8px 8px 0 var(--space);
+  }
+
+  .about-bottom .eyebrow {
+    margin: 0 0 5px;
+
+    color: var(--ink-dim-purple);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+  }
+
+  .about-bottom h2 {
+    color: var(--ink-on-purple);
+
+    font-size: 29px;
+  }
+
+  .about-bottom a {
+    flex-shrink: 0;
+
+    padding: 11px 17px;
+
+    background: var(--card);
+
+    border: 2px solid var(--ink);
+    border-radius: 7px;
+
+    color: var(--ink);
+
+    font-size: 13px;
+    font-weight: 800;
+
+    text-decoration: none;
+
+    box-shadow: 4px 4px 0 var(--space);
+  }
+
+  .about-bottom a:hover {
+    transform: translate(-2px, -2px);
+  }
+
+
+  /* MOBILE */
+
+  @media (max-width: 760px) {
+
+    .about-page {
+      padding-top: 45px;
+    }
+
+    .about-paper {
+      grid-template-columns: 1fr;
+
+      gap: 25px;
+
+      padding: 30px 25px;
+    }
+
+    .paper-stamp {
+      width: 95px;
+      height: 95px;
+
+      font-size: 12px;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .about-grid article {
+      transform: none !important;
+    }
+
+    .about-bottom {
+      align-items: flex-start;
+
+      flex-direction: column;
+
+      padding: 30px 25px;
+    }
+
+  }
+
+</style>
