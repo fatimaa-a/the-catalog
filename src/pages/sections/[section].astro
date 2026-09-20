@@ -53,6 +53,13 @@ export async function getStaticPaths() {
         "Worlds, characters, symbolism, theories, lore, and the shows that consume your entire weekend.",
       accent: "var(--space)",
     },
+    {
+      name: "Folklore",
+      slug: "folklores",
+      description:
+        "Strange stories, symbolism, theories and lore worth obsessing over.",
+      accent: "var(--music)",
+    },
   ];
 
   const topics = await getCollection("topics");
@@ -367,4 +374,11 @@ const { section: currentSection, topics: sectionTopics } = Astro.props;
       padding: 30px 22px;
     }
   }
+
+  .logo img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+  
 </style>
