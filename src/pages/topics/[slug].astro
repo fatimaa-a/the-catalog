@@ -47,20 +47,7 @@ const relatedTopics = allTopics
       <div class="wrap">
         <div class="brand">
           <a class="logo" href="/">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path
-                d="M12 5c-2-1.5-5-2-8-1v14c3-1 6-.5 8 1c2-1.5 5-2-8-1V4c-3-1-6-.5-8 1z"
-              ></path>
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-            </svg>
-
+            <img src="/logo-icon.svg" alt="The Catalog logo" />
             The Catalog
           </a>
         </div>
@@ -695,4 +682,11 @@ const relatedTopics = allTopics
       transform: none;
     }
   }
+
+  .logo img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+  }
+  
 </style>
